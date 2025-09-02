@@ -23,8 +23,8 @@ What do you like to do for fun?: I like to draw and play video games.
 
 ### Knowledge Check
 
-1. On a scale of 1-10 how much experience do you have coding in Python, 1 being no experience, 10 being world-class expert? I would rate myself a 6 out of 10
-If you've coded in Python before what type of projects/work have you done? Using classes and functions to solve various problems using few libraries.
+1. On a scale of 1-10 how much experience do you have coding in Python, 1 being no experience, 10 being world-class expert?
+If you've coded in Python before what type of projects/work have you done? I would rate myself a 6 out of 10. Using classes and functions to solve various problems using few libraries.
 
 2. Have you ever built an ML model before? If so, what type(s) of model(s)? No
 
