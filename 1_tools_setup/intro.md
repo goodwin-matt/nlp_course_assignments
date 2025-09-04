@@ -54,7 +54,7 @@ _7. Have you used AI and if so how have you used it? What models have you used?_
     I started out trying out ChatGPT to be my tutor and programmer where it could be, and then moved over to Cursor for a bit to help me to program, and lately have used Copilot in my summer job for more programming and general questions. ChatGPT is still my go-to for an AI directed question that is not programming related. I don't know much about how AI works, just have had some experience using it as a tool!
 
 _8. How do you feel about the job market and getting a job after you graduate?_  
-    Not stellar. I worry about my degree choice and staying relevant. The Comp Sci field feels very oversaturated to me and I never really got into it with stars in my eyes about big salaries and flexible work, but I have encountered many others who entered my field with those ideas in mind and that means lots and lots of competition. I feel like I really need to go the extra mile to stay relevant and push past the "vibe coding" to be an asset wherever I end up after school. I want to develop as many skills as possible and find one that I really excel in.
+    Not stellar. I worry about my degree choice and staying relevant. The Comp Sci field feels very oversaturated to me. I feel like I really need to go the extra mile to stay relevant and push past the "vibe coding" to be an asset wherever I end up after school. I want to develop as many skills as possible and find one that I really excel in.
 
 _9. Do you know what tf-idf is?_  
     No.
