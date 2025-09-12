@@ -12,82 +12,75 @@ from spacy import displacy
 # Assumes this model is already downloaded
 nlp = spacy.load("en_core_web_sm")
 
-
-def pdf_entity_extractor(pdf_file_location, display_file_location: str = None) -> dict[str, list[str]]:
+def pdf_entity_extractor(pdf_file_location) -> dict[str, list[str]]:
     """
-    Return a dictionary of entities from a pdf. Optionally display entities via displacy.
-    :param pdf_file_location: file location of the pdf to analyze.
-    :param display_file_location: whether to display sentence with entities
-    :return: dictionary of entities. Should be formmated like so:
-        {
-            "entity_label": ["list", "of", "entities"],
-            ...
+    Return a dictionary of entities from a pdf.
+    """
+    # Read PDF text
+    reader = PdfReader(pdf_file_location)
+    text = ""
+    for page in reader.pages:
+        page_text = page.extract_text()
+        if page_text:
+            text += page_text
+
+    # Process with spaCy
+    doc = nlp(text)
+
+    # Collect entities
+    entities: dict[str, list[str]] = {}
+    for ent in doc.ents:
+        if ent.label_ not in entities:
+            entities[ent.label_] = []
+        entities[ent.label_].append(ent.text)
+
+    return entities
+
+def token_analyzer(text: str) -> dict:
+    """
+    Given a text string, split into tokens and return for each token.
+    """
+    doc = nlp(text)
+    tokens_info = {}
+
+    for token in doc:
+        tokens_info[token.text] = {
+            "lemma": token.lemma_,
+            "pos": token.pos_,
+            "shape": token.shape_,
+            "is_alpha": token.is_alpha,
+            "is_stop": token.is_stop
         }
 
-        For example,
-
-        {
-            "ORG": ["USU", "BYU"],
-            ...
-        }
-
-    """
-
-
-def token_analyzer(text: str, display_file_location: str = None) -> dict:
-    """
-    Given a text string, split into tokens and return for each token:
-        - the lemmatized version of each token,
-        - the part of speech,
-        - the shape,
-        - whether alpha characters are present in the token
-        - whether the token is a stop word
-
-    :param text: sentence string to analyze.
-    :param display_file_location: whether to display dependencies and pos
-    :return: dictionary of tokens, formatted like this:
-        {
-            'token A': {
-                'lemma': 'token A lemma',
-                'pos': 'token A pos',
-                'shape': 'token A shape',
-                ...
-            },
-            'token B': {
-                ...
-            }
-        }
-    """
-
-
+    return tokens_info
 
 def remove_stop_words(text: str) -> str:
     """
-    Remove stop words: https://spacy.io/usage/linguistic-features#language-data
-    :param text: original sentence, text
-    :return: same string, but without stop words
+    Remove stop words from the given text.
     """
-
-
+    doc = nlp(text)
+    filtered_tokens = [token.text for token in doc if not token.is_stop]
+    return " ".join(filtered_tokens)
 
 def lemmatizer(text: str) -> str:
     """
     Lemmatize sentence.
-    :param text: original sentence, text to lemmatize
-    :return: lemmatized text
     """
-
-
+    doc = nlp(text)
+    lemmas = [token.lemma_ for token in doc]
+    return " ".join(lemmas)
 
 def create_character_tokenizer(training_text: str, text_to_tokenize: str) -> list[int]:
     """
-    Given a training text corpus and the text to tokenize, first find a character level tokenization from the training
-    text apply to the text to tokenize.
-
-    For example:
-    create_character_tokenizer('abcd', 'acb') -> [0,2,1]
-
-    :param training_text: larger corpus of text to find a character level tokenization from.
-    :param text_to_tokenize: text to tokenize using found character level tokenization.
-    :return: list of the tokens.
+    Create a character-level tokenizer using indices from the training text.
     """
+    # Build mapping from character → index (based on first occurrence)
+    char_to_index = {}
+    for i, ch in enumerate(training_text):
+        if ch not in char_to_index:
+            char_to_index[ch] = i
+
+    # Convert text_to_tokenize using the mapping
+    tokens = [char_to_index[ch] for ch in text_to_tokenize if ch in char_to_index]
+
+    return tokens
